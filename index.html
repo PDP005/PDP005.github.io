@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+      :root {
+        --primary: #2575fc;
+        --secondary: #6a11cb;
+        --accent: #ff6f61;
+        --dark: #1a1a1a;
+        --light: #f4f4f9;
+        --transition: all 0.3s ease;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--light);
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        color: var(--dark);
+      }
+
+      /* Smooth Scroll */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--light);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border-radius: 5px;
+      }
+
+      /* Header Styles */
+      header {
+        background: transparent;
+        transition: var(--transition);
+        padding: 20px 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+      }
+
+      header.scrolled {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      header.scrolled h1,
+      header.scrolled nav a {
+        color: var(--dark);
+      }
+
+      header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin: 0;
+        color: white;
+        transition: var(--transition);
+      }
+
+      nav {
+        margin: 20px 0;
+      }
+
+      nav a {
+        color: white;
+        margin: 0 20px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: var(--transition);
+        position: relative;
+      }
+
+      nav a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: var(--accent);
+        transition: var(--transition);
+      }
+
+      nav a:hover::after {
+        width: 100%;
+      }
+
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(135deg, var(--secondary), var(--primary));
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E")
+          no-repeat bottom;
+        background-size: cover;
+      }
+
+      .hero-content {
+        max-width: 800px;
+        text-align: center;
+        color: white;
+        z-index: 1;
+        padding: 0 20px;
+      }
+
+      .hero h2 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 1s ease forwards;
+      }
+
+      .hero p {
+        font-size: 1.4rem;
+        margin-bottom: 30px;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 1s ease forwards 0.3s;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Skills Section */
+      .skills {
+        padding: 100px 0;
+        background-color: white;
+      }
+
+      .skills h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 60px;
+        text-align: center;
+        position: relative;
+      }
+
+      .skills h2::after {
+        content: "";
+        position: absolute;
+        width: 100px;
+        height: 3px;
+        background: linear-gradient(to right, var(--secondary), var(--primary));
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .skill-grid {
+        display: grid;
+
+        grid-template-columns: repeat(6, minmax(150px, 1fr));
+        gap: 30px;
+        padding: 0 20px;
+      }
+
+      .skill-item {
+        background: white;
+        border-radius: 15px;
+        padding: 30px 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+      }
+
+      .skill-item::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, var(--secondary), var(--primary));
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: var(--transition);
+        z-index: 0;
+      }
+
+      .skill-item:hover::before {
+        opacity: 0.1;
+      }
+
+      .skill-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      .skill-item i,
+      .skill-item img {
+        font-size: 3rem;
+        color: var(--primary);
+        margin-bottom: 15px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .skill-item h4 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin: 0;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Projects Section */
+      .projects {
+        padding: 100px 0;
+        background-color: var(--light);
+      }
+
+      .projects h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 60px;
+        text-align: center;
+        position: relative;
+      }
+
+      .projects h2::after {
+        content: "";
+        position: absolute;
+        width: 100px;
+        height: 3px;
+        background: linear-gradient(to right, var(--secondary), var(--primary));
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .project-item {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .project-item::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(to right, var(--secondary), var(--primary));
+        top: 0;
+        left: 0;
+        transform: scaleX(0);
+        transition: var(--transition);
+      }
+
+      .project-item:hover::before {
+        transform: scaleX(1);
+      }
+
+      .project-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      .project-item h4 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: var(--dark);
+      }
+
+      .project-item p {
+        color: #666;
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--secondary), var(--primary));
+        border: none;
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-weight: 500;
+        transition: var(--transition);
+        box-shadow: 0 5px 15px rgba(37, 117, 252, 0.2);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(37, 117, 252, 0.3);
+      }
+
+      /* Footer */
+      footer {
+        background: linear-gradient(135deg, var(--secondary), var(--primary));
+        color: white;
+        padding: 50px 0 30px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      footer::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E")
+          no-repeat top;
+        background-size: cover;
+        opacity: 0.1;
+      }
+
+      .social-icons {
+        margin: 20px 0;
+      }
+
+      .social-icons a {
+        color: white;
+        margin: 0 15px;
+        font-size: 1.8rem;
+        transition: var(--transition);
+        display: inline-block;
+      }
+
+      .social-icons a:hover {
+        color: var(--accent);
+        transform: translateY(-5px);
+      }
+
+      /* Custom Icon Size */
+      .custom-icon,
+      .fa-css3-alt,
+      .fa-html5,
+      .fa-java,
+      .fa-js,
+      .fa-python,
+      .fa-react,
+      .fa-angular,
+      .fa-code,
+      .fa-bootstrap,
+      .fa-database {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 15px;
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 768px) {
+        header h1 {
+          font-size: 2rem;
+        }
+
+        .hero h2 {
+          font-size: 2.5rem;
+        }
+
+        .hero p {
+          font-size: 1.2rem;
+        }
+
+        .skill-grid {
+          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Mi Portfolio</h1>
+      <nav>
+        <a href="#hero">Inicio</a>
+        <a href="#skills">Conocimientos</a>
+        <a href="#projects">Proyectos</a>
+      </nav>
+    </header>
+
+    <section id="hero" class="hero">
+      <div class="hero-content">
+        <h2>¡Hola! Soy Pedro, un desarrollador apasionado</h2>
+        <p>
+          Especializado en aplicaciones web con experiencia en tecnologías
+          modernas.
+        </p>
+      </div>
+    </section>
+
+    <section id="skills" class="skills">
+      <h2>Mis Conocimientos</h2>
+      <div class="container">
+        <div class="skill-grid" data-aos="fade-up" data-aos-duration="1000">
+          <div class="skill-item">
+            <img
+              src="https://img.icons8.com/ios_filled/512/c-sharp-logo.png"
+              class="custom-icon"
+            />
+            <h4>C#</h4>
+          </div>
+          <div class="skill-item">
+            <i class="fab fa-css3-alt"></i>
+            <h4>CSS</h4>
+          </div>
+          <div class="skill-item">
+            <i class="fab fa-html5"></i>
+            <h4>HTML</h4>
+          </div>
+          <div class="skill-item">
+            <i class="fab fa-java"></i>
+            <h4>Java</h4>
+          </div>
+          <div class="skill-item">
+            <i class="fab fa-js"></i>
+            <h4>JavaScript</h4>
+          </div>
+          <div class="skill-item">
+            <i class="fab fa-python"></i>
+            <h4>Python</h4>
+          </div>
+          <div class="skill-item">
+            <i class="fab fa-react"></i>
+            <h4>TypeScript</h4>
+          </div>
+          <div class="skill-item">
+            <i class="fab fa-angular"></i>
+            <h4>Angular</h4>
+          </div>
+          <div class="skill-item">
+            <i class="fas fa-code"></i>
+            <h4>.NET</h4>
+          </div>
+          <div class="skill-item">
+            <i class="fab fa-bootstrap"></i>
+            <h4>Bootstrap</h4>
+          </div>
+          <div class="skill-item">
+            <img
+              src="https://www.svgrepo.com/show/508908/django.svg"
+              class="custom-icon"
+            />
+            <h4>Django</h4>
+          </div>
+          <div class="skill-item">
+            <i class="fas fa-database"></i>
+            <h4>SQL</h4>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="projects">
+      <h2>Mis Proyectos</h2>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
+            <div class="project-item">
+              <h4>Página web</h4>
+              <p>
+                Página web con Wordpress para un blog de recetas. Diseño
+                responsivo y moderno con funcionalidades avanzadas de gestión de
+                contenido.
+              </p>
+              <a
+                href="http://agilecorporation.ddns.net/daw2/dalu05/"
+                class="btn btn-primary"
+                target="_blank"
+                >Ver Proyecto</a
+              >
+            </div>
+          </div>
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="project-item">
+              <h4>Proyecto 2</h4>
+              <p>
+                Aplicación web desarrollada con tecnologías modernas. Incluye
+                autenticación de usuarios, gestión de datos en tiempo real y
+                diseño adaptativo.
+              </p>
+              <a href="#" class="btn btn-primary">Ver Proyecto</a>
+            </div>
+          </div>
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+            <div class="project-item">
+              <h4>Proyecto 3</h4>
+              <p>
+                Sistema de gestión empresarial con interfaz intuitiva.
+                Desarrollado con las últimas tecnologías y siguiendo las mejores
+                prácticas de UX/UI.
+              </p>
+              <a href="#" class="btn btn-primary">Ver Proyecto</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p>© 2025 - Mi Portfolio. Todos los derechos reservados.</p>
+        <div class="social-icons">
+          <a
+            href="https://www.linkedin.com/in/pedrodiazp%C3%A9rez/"
+            target="_blank"
+          >
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="https://github.com/PDP005" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+      // Initialize AOS
+      AOS.init();
+
+      // Header scroll effect
+      window.addEventListener("scroll", function () {
+        const header = document.querySelector("header");
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+
+      // Smooth scroll for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          const headerOffset = 80;
+          const elementPosition = target.offsetTop;
+          const offsetPosition = elementPosition - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth",
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
